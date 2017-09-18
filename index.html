@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JS Reference VS Copy</title>
+</head>
+<body>
+
+  <script>
+    /*** start with strings, numbers and booleans ***/
+    let age = 100
+    let age2 = age
+    console.log(age, age2)  //prints 100 100
+    age = 200
+    console.log(age, age2) //prints 200 100
+
+    let name = "Gabe"
+    let name2 = name
+    console.log(name, name2)  //prints 100 100
+    name = "West"
+    console.log(name, name2) //prints 200 100
+
+
+    /*** Let's say we have an array ***/
+    const players = ['Wes', 'Sarah', 'Ryan', 'Poppy'];
+
+    /*** and we want to make a copy of it. ***/
+    const team = players
+
+    console.log(players, team)  //prints ['Wes', 'Sarah', 'Ryan', 'Poppy'] twice
+
+    /*** You might think we can just do something like this: ***/
+    team[3] = "Gabe"
+
+    console.log(players, team) //prints ['Wes', 'Sarah', 'Ryan', 'Gabe'] twice
+
+    //however what happens when we update that array?
+    //we have edited the original array too!
+    //Why? It's because that is an array reference, not an array copy. They both point to the same array!
+
+    /*** So, how do we fix this? We take a copy instead! ***/
+    const teamCopy1 = players.slice()
+    const teamCopy2 = [].concat(players)
+    const teamCopy3 = [...players]
+    const teamCopy4 = Array.from(players)
+
+    /*** with Objects ***/
+    const person = {
+        name: "Gabe West",
+        age: 21
+    }
+
+    /*** and think we make a copy: ***/
+    const personCopy = { ...person }
+    const john = { ...person, name: "John Doe" }    //john will inherit the age of 21 from the person object
+    const a40YearOld = { ...person, age: 40 }   //Will have an age of 40 but inherit the name Gabe West
+
+    console.log(personCopy, john, a40YearOld)
+
+    /*** Things to note - this is only 1 level deep - both for Arrays and Objects. lodash has a cloneDeep method, but you should think twice before using it. ***/
+    const gabe = {
+        name: "Gabe West",
+        address: {
+            street: "2321 loquat lane",
+            zip: 78681
+        }
+    }
+
+    const gabeCopy = { ...gabe }
+
+    console.log(gabe, gabeCopy)
+  </script>
+
+</body>
+</html>
